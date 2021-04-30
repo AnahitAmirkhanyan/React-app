@@ -1,0 +1,7 @@
+30.04.2021
+
+- skim over the done part of the tictactoe
+- make the rest of the changes (classes to functions)
+- read the part of the documentaton about the lifting up whatever
+- look into the redux documentation
+- API and Hooks sections TBD
