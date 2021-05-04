@@ -14,7 +14,7 @@ class Board extends React.Component {
     handleClick(i) {
       const squares = [...this.state.squares];
 
-      if(squares[i]){
+      if(squares[i] || this.state.winner) {
         return;
       }
 
@@ -26,8 +26,9 @@ class Board extends React.Component {
       });
 
       const winner = calculateWinner(squares, i);
-      if(winner){
-        this.setState({winner})
+
+      if(winner) {
+        this.setState({ winner })
         return;
       }  
     }
@@ -77,44 +78,54 @@ class Board extends React.Component {
   function calculateWinner(squares, n) {
     const newArr = [];
     const squaresCopy = [...squares];
-    while(squaresCopy.length){
-      newArr.push(squaresCopy.splice(0,3));
-    } 
+  
+    while(squaresCopy.length) {
+      newArr.push(squaresCopy.splice(0, 3));
+    }
+
     let winner = null;
     
     // check rows
     let currentRow = Math.floor(n / 3);
     winner = checkWinner(checkRows(newArr, currentRow));
-    if(winner) return winner;
+    if(winner) {
+      return winner;
+    }
 
     // check columns
     let currentCol = n % 3;
     winner = checkWinner(checkColumns(newArr, currentCol));
-    if(winner) return winner;
+    if(winner) {
+      return winner;
+    }
 
 
     // check diag1 if square is on diag1
-    if(currentRow === currentCol){
+    if(currentRow === currentCol) {
       winner = checkWinner(checkDiag1(newArr));
-      if(winner) return winner;
+      if(winner) {
+        return winner;
+      }
     }
 
     // check diag2 if square is on diag2
-    if(currentRow + currentCol === 2){
+    if(currentRow + currentCol === 2) {
       winner = checkWinner(checkDiag2(newArr));
-      if(winner) return winner;
+      if(winner) {
+        return winner;
+      }
     }
 
     return null;
   }
 
-  function checkWinner(count){
+  function checkWinner(count) {
     if(count === 3) return 'X';
     if(count === -3) return 'O';
     return null;
   }
 
-  function checkRows(newArr, currentRow){
+  function checkRows(newArr, currentRow) {
     let count = 0;
     for(let i = 0; i < 3; i++){
       if(newArr[currentRow][i] == null) break;
@@ -122,10 +133,11 @@ class Board extends React.Component {
       if(newArr[currentRow][i] === 'X') count++;
       else count--;
     }
+
     return count;
   }
 
-  function checkColumns(newArr, currentCol){
+  function checkColumns(newArr, currentCol) {
     let count = 0;
     for(let i = 0; i < 3; i++) {
       if(newArr[i][currentCol] == null) break;
@@ -133,21 +145,23 @@ class Board extends React.Component {
       if(newArr[i][currentCol] === 'X') count++;
       else count--;
     }
+
     return count;
   }
 
-  function checkDiag1(newArr){
+  function checkDiag1(newArr) {
     let count = 0;
-    for(let i = 0; i < 3; i++){
+    for(let i = 0; i < 3; i++) {
       if(newArr[i][i] == null) break;
 
       if(newArr[i][i] === 'X') count++;
       else count--;
     }
+
     return count;
   }
 
-  function checkDiag2(newArr){
+  function checkDiag2(newArr) {
     let count = 0;
     for(let i = 0; i < 3; i++){
       if(newArr[i][2 - i] == null) break;
@@ -155,6 +169,7 @@ class Board extends React.Component {
       if(newArr[i][2 - i] === 'X') count++;
       else count--;
     }
+    
     return count;
   }
 
